@@ -19,7 +19,7 @@ public class LAB1 {
 	 * times each number appears and printing them out again in order
 	 */
 	public static int[] countingSort(int[] a) {
-		int[] counts = new int[MAX_INPUT];
+		int[] counts = new int[MAX_INPUT+1];
 		for (int i = 0; i < a.length; i++) {
 			counts[a[i]]++;
 		}
