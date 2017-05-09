@@ -15,7 +15,9 @@ import java.util.Scanner;
 
 public class LAB1 {
 
-	// TODO: document this method
+	/* Performs a sort on an array of integers by counting the number
+	 * times each number appears and printing them out again in order
+	 */
 	public static int[] countingSort(int[] a) {
 		int[] counts = new int[MAX_INPUT];
 		for (int i = 0; i < a.length; i++) {
@@ -34,25 +36,31 @@ public class LAB1 {
 		return result;
 	}
 
-	// TODO: document this method
+	/* Performs a sort on an array of integers by sorting their
+	 * digits starting with the tens. And moving up to however many
+	 * digits the largest number has
+	 */
+	private final static int RADIX = 10;
 	public static int[] radixSort(int[] a) {
-		final int RADIX = 10;
+		
 		int position = 1;
 		int maxSize = 0;
 		for(Integer value : a) {
 			int length = String.valueOf(value).length();
 			maxSize = Math.max(length, maxSize);
 		}
-		return radixSortHelper(RADIX, a, position, maxSize);
+		return radixSortHelper(a, position, maxSize);
 	}
 	
-	private static int[] radixSortHelper(int radix, int[] a, int position, int maxSize) {
-		List<Integer>[] buckets = new ArrayList[radix];
+	// A recursive helper method for performing the radixSort
+	@SuppressWarnings("unchecked")
+	private static int[] radixSortHelper(int[] a, int position, int maxSize) {
+		List<Integer>[] buckets = new ArrayList[RADIX];
 		for(int i = 0; i < buckets.length; i++) {
 			buckets[i] = new ArrayList<Integer>();
 		}
 		for(Integer i = 0; i < a.length; i++) {
-			int currentDigit = (int) (a[i] % (Math.pow(radix, position)));
+			int currentDigit = (int) (a[i] % (Math.pow(RADIX, position)));
 			currentDigit /= Math.pow(10, position-1);
 			buckets[currentDigit].add(i);
 		}
@@ -64,7 +72,7 @@ public class LAB1 {
 			}
 		}
 		if(position <= maxSize) {
-			return radixSortHelper(radix, result, position + 1, maxSize);
+			return radixSortHelper(result, position + 1, maxSize);
 		}
 		return result;
 	}
