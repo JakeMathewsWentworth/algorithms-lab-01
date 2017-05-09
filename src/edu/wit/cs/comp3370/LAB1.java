@@ -1,6 +1,10 @@
 package edu.wit.cs.comp3370;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -16,8 +20,21 @@ public class LAB1 {
 
 	// TODO: document this method
 	public static int[] countingSort(int[] a) {
-		//TODO: implement this method
-		return null;
+		int[] counts = new int[MAX_INPUT];
+		for (int i = 0; i < a.length; i++) {
+			counts[a[i]]++;
+		}
+		int[] result = new int[a.length];
+		int currentIndex = 0;
+		for (int i = 0; i < counts.length; i++) {
+			if (counts[i] > 0) {
+				for (int x = 0; x < counts[i]; x++) {
+					result[currentIndex + x] = i;
+				}
+				currentIndex += counts[i];
+			}
+		}
+		return result;
 	}
 
 	// TODO: document this method
@@ -41,18 +58,21 @@ public class LAB1 {
 		for (int i = 1; i < a.length; i++) {
 			int tmp = a[i];
 			int j;
-			for (j = i-1; j >= 0 && tmp < a[j]; j--)
-				a[j+1] = a[j];
-			a[j+1] = tmp;
+			for (j = i - 1; j >= 0 && tmp < a[j]; j--)
+				a[j + 1] = a[j];
+			a[j + 1] = tmp;
 		}
 
 		return a;
 	}
 
-	/* Implementation note: The sorting algorithm is a Dual-Pivot Quicksort by Vladimir Yaroslavskiy,
-	 *  Jon Bentley, and Joshua Bloch. This algorithm offers O(n log(n)) performance on many data 
-	 *  sets that cause other quicksorts to degrade to quadratic performance, and is typically 
-	 *  faster than traditional (one-pivot) Quicksort implementations. */
+	/*
+	 * Implementation note: The sorting algorithm is a Dual-Pivot Quicksort by
+	 * Vladimir Yaroslavskiy, Jon Bentley, and Joshua Bloch. This algorithm
+	 * offers O(n log(n)) performance on many data sets that cause other
+	 * quicksorts to degrade to quadratic performance, and is typically faster
+	 * than traditional (one-pivot) Quicksort implementations.
+	 */
 	public static int[] systemSort(int[] a) {
 		Arrays.sort(a);
 		return a;
@@ -75,7 +95,7 @@ public class LAB1 {
 	// copies an ArrayList of Integer to an array of int
 	private static int[] toIntArray(ArrayList<Integer> a) {
 		int[] ret = new int[a.size()];
-		for(int i = 0; i < ret.length; i++)
+		for (int i = 0; i < ret.length; i++)
 			ret[i] = a.get(i);
 		return ret;
 	}
