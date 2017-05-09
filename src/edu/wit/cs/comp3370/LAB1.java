@@ -1,12 +1,9 @@
 package edu.wit.cs.comp3370;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 /* Sorts integers from command line using various algorithms 
  * 
@@ -39,8 +36,37 @@ public class LAB1 {
 
 	// TODO: document this method
 	public static int[] radixSort(int[] a) {
-		// TODO: implement this method
-		return null;
+		final int RADIX = 10;
+		int position = 1;
+		int maxSize = 0;
+		for(Integer value : a) {
+			int length = String.valueOf(value).length();
+			maxSize = Math.max(length, maxSize);
+		}
+		return radixSortHelper(RADIX, a, position, maxSize);
+	}
+	
+	private static int[] radixSortHelper(int radix, int[] a, int position, int maxSize) {
+		List<Integer>[] buckets = new ArrayList[radix];
+		for(int i = 0; i < buckets.length; i++) {
+			buckets[i] = new ArrayList<Integer>();
+		}
+		for(Integer i = 0; i < a.length; i++) {
+			int currentDigit = (int) (a[i] % (Math.pow(radix, position)));
+			currentDigit /= Math.pow(10, position-1);
+			buckets[currentDigit].add(i);
+		}
+		int[] result = new int[a.length];
+		int aIndex = 0;
+		for(int i = 0; i < buckets.length; i++) {
+			for(int j = 0; j < buckets[i].size(); j++) {
+				result[aIndex++] = a[buckets[i].get(j)];
+			}
+		}
+		if(position <= maxSize) {
+			return radixSortHelper(radix, result, position + 1, maxSize);
+		}
+		return result;
 	}
 
 	/********************************************
